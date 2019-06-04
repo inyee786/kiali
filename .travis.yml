@@ -37,8 +37,8 @@ script:
   - make swagger-travis
   - make build
   - ls -ltr
-#after_success:
-#- if [ "$TRAVIS_BRANCH" = "mayadata-io" -a "$TRAVIS_PULL_REQUEST" = "false" ]; then export REPO=mayadata/kiali;
-#   docker login -u "$DOCKER_USER" -p "$DOCKER_PASS" && docker build -t $REPO:$COMMIT . && docker push $REPO; 
-#  fi
+after_success:
+- if [ "$TRAVIS_BRANCH" = "mayadata-io" -a "$TRAVIS_PULL_REQUEST" != "false" ]; then export REPO=mayadata/kiali;
+   docker login -u "$DOCKER_USER" -p "$DOCKER_PASS" && docker build -t $REPO:$COMMIT ../Dockerfile . 
+  fi
   
