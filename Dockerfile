@@ -1,6 +1,5 @@
 # Stage 0, "build-stage", based on Node.js, to build and compile the frontend
 FROM node:10.8.0 as build-forntend
-RUN echo $GOPATH
 WORKDIR /app
 #COPY package*.json /app/
 COPY ./kiali-ui /app/
@@ -21,7 +20,6 @@ ENV KIALI_HOME=/opt/kiali \
     PATH=$KIALI_HOME:$PATH
 RUN echo $GOPATH
 WORKDIR $KIALI_HOME
-LABEL branch=${BRANCH}
 COPY $GOPATH/bin/kiali $KIALI_HOME/
 
 RUN mkdir $KIALI_HOME/console/
