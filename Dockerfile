@@ -10,7 +10,6 @@ RUN yarn build
 RUN ls -ltr
 
 #COPY --from=build-stage /app/dist/out/ /usr/share/nginx/html
- 
 #stage 2, copy forntend dist and go binary
 FROM centos:centos7
 
