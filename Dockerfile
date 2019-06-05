@@ -19,7 +19,7 @@ ENV KIALI_HOME=/opt/kiali \
     PATH=$KIALI_HOME:$PATH
 RUN echo $GOPATH
 WORKDIR $KIALI_HOME
-COPY $GOPATH/bin/kiali $KIALI_HOME/
+COPY ./kiali/kiali $KIALI_HOME/
 
 RUN mkdir $KIALI_HOME/console/
 

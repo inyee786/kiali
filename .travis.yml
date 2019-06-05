@@ -25,21 +25,24 @@ before_script:
 # See: https://github.com/golang/dep/blob/master/docs/FAQ.md#should-i-commit-my-vendor-directory
 install:
  - ./build-script.sh
-# - make dep-install
-# - make swagger-install
-# - make gometalinter-install
-#- make dep-update
+ - make dep-install
+ - make swagger-install
+ - make gometalinter-install
+# - make dep-update
 
 script:
-#  - if [ ! -z "$(gofmt -l ${GO_FILES})" ]; then echo "These files need to be formatted:" "$(gofmt -l ${GO_FILES})";echo "Diff files:"; gofmt -d ${GO_FILES}; exit 1; fi # Gofmt Linter
-#  - make lint
-#  - make clean build test-race
-#  - make swagger-travis
+  - if [ ! -z "$(gofmt -l ${GO_FILES})" ]; then echo "These files need to be formatted:" "$(gofmt -l ${GO_FILES})";echo "Diff files:"; gofmt -d ${GO_FILES}; exit 1; fi # Gofmt Linter
+  - make lint
+  - make clean build test-race
+  - make swagger-travis
   - make build
-  - cp $GOPATH/bin/kiali ./
+  - cp ${GOPATH}/bin/kiali ./
   - ls -ltr
+  - cd ..
+  - ls -ltr
+  - docker build -t inyee/kiali:${COMMIT} -f ./kiali/Dockerfile .
 after_success:
-- if [ "$TRAVIS_BRANCH" = "mayadata-io" -a "$TRAVIS_PULL_REQUEST" != "false" ]; then export REPO=mayadata/kiali;
-   docker login -u "$DOCKER_USER" -p "$DOCKER_PASS" && ls -ltr && cd .. && ls -ltr && pwd;
+- if [ "$TRAVIS_BRANCH" = "mayadata-io" -a "$TRAVIS_PULL_REQUEST" = "false" ]; then export REPO=mayadata/kiali;
+   docker login -u "$DOCKER_USER" -p "$DOCKER_PASS" && ls -ltr && cd .. && docker build  -t inyee/kiali:${COMMIT} -f ./kiali/Dockerfile . && docker push inyee/kiali:${COMMIT};
   fi
   
